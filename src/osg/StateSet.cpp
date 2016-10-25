@@ -53,8 +53,8 @@ class TextureGLModeSet
             _textureModeSet.insert(GL_TEXTURE_BUFFER);
 
             _textureModeSet.insert(GL_TEXTURE_CUBE_MAP);
-            _textureModeSet.insert(GL_TEXTURE_RECTANGLE_NV);
-            _textureModeSet.insert(GL_TEXTURE_2D_ARRAY_EXT);
+            _textureModeSet.insert(GL_TEXTURE_RECTANGLE);
+            _textureModeSet.insert(GL_TEXTURE_2D_ARRAY);
             _textureModeSet.insert(GL_TEXTURE_2D_MULTISAMPLE);
 
             _textureModeSet.insert(GL_TEXTURE_GEN_Q);
@@ -1391,7 +1391,7 @@ const StateSet::RefAttributePair* StateSet::getTextureAttributePair(unsigned int
 
 bool StateSet::checkValidityOfAssociatedModes(osg::State& state) const
 {
-    OSG_NOTICE<<__PRETTY_FUNCTION__<<std::endl;
+    //OSG_NOTICE<<__PRETTY_FUNCTION__<<std::endl;
 
     bool modesValid = true;
     for(AttributeList::const_iterator itr = _attributeList.begin();
