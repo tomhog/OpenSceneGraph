@@ -1684,7 +1684,7 @@ void State::getDefineString(std::string& shaderDefineStr, const osg::ShaderDefin
             shaderDefineStr += cd_itr->first;
             if (!dp.first.empty())
             {
-                shaderDefineStr += " ";
+                if (dp.first[0]!='(') shaderDefineStr += " ";
                 shaderDefineStr += dp.first;
             }
 
