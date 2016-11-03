@@ -572,11 +572,12 @@ void State::popAllStateSets()
     {
         while (!_stateStateStack.empty()) popStateSet();
     }
-
+#if 0
     applyProjectionMatrix(0);
     applyModelViewMatrix(0);
 
     _lastAppliedProgramObject = 0;
+#endif
 }
 
 void State::popStateSet()
@@ -1263,7 +1264,6 @@ bool State::checkGLErrors(const StateAttribute* attribute) const
     return false;
 }
 
-
 void State::applyModelViewAndProjectionUniformsIfRequired()
 {
     if (!_lastAppliedProgramObject) return;
@@ -1442,8 +1442,6 @@ void State::applyModelViewMatrix(const osg::Matrix& matrix)
 
     loadModelViewMatrix();
 }
-
-#include <osg/io_utils>
 
 void State::updateModelViewAndProjectionMatrixUniforms()
 {
