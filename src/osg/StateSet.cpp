@@ -170,7 +170,7 @@ StateSet::StateSet(const StateSet& rhs,const CopyOp& copyop):Object(rhs,copyop),
     {
         const std::string& name = rhs_uitr->first;
         const RefUniformPair& rup = rhs_uitr->second;
-        Uniform* uni = copyop(rup.first.get());
+        UniformBase* uni = copyop(rup.first.get());
         if (uni)
         {
             _uniformList[name] = RefUniformPair(uni, rup.second);
@@ -1041,7 +1041,7 @@ const StateSet::RefAttributePair* StateSet::getAttributePair(StateAttribute::Typ
     return getAttributePair(_attributeList,type,member);
 }
 
-void StateSet::addUniform(Uniform* uniform, StateAttribute::OverrideValue value)
+void StateSet::addUniform(UniformBase* uniform, StateAttribute::OverrideValue value)
 {
     if (uniform)
     {
@@ -1124,7 +1124,7 @@ void StateSet::removeUniform(const std::string& name)
     }
 }
 
-void StateSet::removeUniform(Uniform* uniform)
+void StateSet::removeUniform(UniformBase* uniform)
 {
     if (!uniform) return;
 
@@ -1148,7 +1148,7 @@ void StateSet::removeUniform(Uniform* uniform)
     }
 }
 
-Uniform* StateSet::getUniform(const std::string& name)
+UniformBase* StateSet::getUniform(const std::string& name)
 {
     UniformList::iterator itr = _uniformList.find(name);
     if (itr!=_uniformList.end()) return itr->second.first.get();
@@ -1159,10 +1159,10 @@ Uniform* StateSet::getOrCreateUniform(const std::string& name, Uniform::Type typ
 {
     // for look for an appropriate uniform.
     UniformList::iterator itr = _uniformList.find(name);
-    if (itr!=_uniformList.end() &&
-        itr->second.first->getType()==type)
+    if (itr!=_uniformList.end())
     {
-        return itr->second.first.get();
+        Uniform* orig_uniform = dynamic_cast<Uniform*>(itr->second.first.get());
+        if (orig_uniform && orig_uniform->getType()==type) return orig_uniform;
     }
 
     // no uniform found matching name so create it..
@@ -1174,7 +1174,7 @@ Uniform* StateSet::getOrCreateUniform(const std::string& name, Uniform::Type typ
 }
 
 
-const Uniform* StateSet::getUniform(const std::string& name) const
+const UniformBase* StateSet::getUniform(const std::string& name) const
 {
     UniformList::const_iterator itr = _uniformList.find(name);
     if (itr!=_uniformList.end()) return itr->second.first.get();
