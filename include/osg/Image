@@ -169,6 +169,12 @@
 #define GL_DEPTH_COMPONENT32F_NV          0x8DAB
 #endif
 
+#ifndef GL_DEPTH24_STENCIL8
+#define GL_DEPTH24_STENCIL8               0x88F0
+#define GL_DEPTH_STENCIL                  0x84F9
+#define GL_UNSIGNED_INT_24_8              0x84FA
+#endif
+
 namespace osg {
 
 // forward declare

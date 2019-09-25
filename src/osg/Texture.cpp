@@ -171,7 +171,7 @@ InternalPixelRelations sizedDepthAndStencilInternalFormats[] = {
     , { GL_DEPTH_COMPONENT24                   , GL_DEPTH_COMPONENT  , GL_UNSIGNED_INT                              }
     , { GL_DEPTH_COMPONENT32                   , GL_DEPTH_COMPONENT  , GL_UNSIGNED_INT                              }
     , { GL_DEPTH_COMPONENT32F                  , GL_DEPTH_COMPONENT  , GL_FLOAT                                     }
- // , { GL_DEPTH24_STENCIL8                    , GL_DEPTH_STENCIL    , GL_UNSIGNED_INT_24_8                         }
+    , { GL_DEPTH24_STENCIL8                    , GL_DEPTH_STENCIL    , GL_UNSIGNED_INT_24_8                         }
  // , { GL_DEPTH32F_STENCIL8                   , GL_DEPTH_STENCIL    , GL_FLOAT_32_UNSIGNED_INT_24_8_REV            }
 };
 
@@ -209,6 +209,19 @@ bool isSizedInternalFormat(GLint internalFormat)
     for (size_t i=0; i < formatsCount; ++i)
     {
         if((GLenum)internalFormat == sizedInternalFormats[i].sizedInternalFormat)
+            return true;
+    }
+
+    return false;
+}
+
+bool isSizedDepthAndStencilInternalFormat(GLint internalFormat)
+{
+    const size_t formatsCount = sizeof(sizedDepthAndStencilInternalFormats) / sizeof(sizedDepthAndStencilInternalFormats[0]);
+
+    for (size_t i = 0; i < formatsCount; ++i)
+    {
+        if ((GLenum)internalFormat == sizedDepthAndStencilInternalFormats[i].sizedInternalFormat)
             return true;
     }
 
@@ -2124,6 +2137,7 @@ GLenum Texture::selectSizedInternalFormat(const osg::Image* image) const
     else
     {
         if (isSizedInternalFormat(_internalFormat)) return _internalFormat;
+        if (isSizedDepthAndStencilInternalFormat(_internalFormat)) return _internalFormat;
 
         return assumeSizedInternalFormat(_internalFormat, (_sourceType!=0) ? _sourceType : GL_UNSIGNED_BYTE);
     }
